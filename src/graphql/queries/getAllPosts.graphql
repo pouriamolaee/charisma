@@ -1,0 +1,9 @@
+query GetAllPosts {
+  posts {
+    data {
+      id
+      title
+      body
+    }
+  }
+}

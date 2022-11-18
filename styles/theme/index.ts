@@ -18,8 +18,12 @@ const theme: ThemeOptions = createTheme({
     },
   },
   typography: {
+    body2: {
+      fontSize: "1rem",
+    },
     caption: {
-      color: grey[500],
+      color: grey[600],
+      fontSize: "0.875rem",
     },
   },
   components: {

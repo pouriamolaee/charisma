@@ -16,6 +16,7 @@
     "@graphql-codegen/typescript": "^2.8.2",
     "@graphql-codegen/typescript-operations": "^2.5.7",
     "@graphql-codegen/typescript-react-query": "^4.0.5",
+    "@mui/icons-material": "^5.10.14",
     "@mui/material": "^5.10.14",
     "@mui/styles": "^5.10.14",
     "@reduxjs/toolkit": "^1.9.0",

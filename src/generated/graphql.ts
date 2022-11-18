@@ -521,12 +521,40 @@ export type UsersPage = {
   meta?: Maybe<PageMetadata>;
 };
 
+export type GetAllPostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllPostsQuery = { __typename?: 'Query', posts?: { __typename?: 'PostsPage', data?: Array<{ __typename?: 'Post', id?: string | null, title?: string | null, body?: string | null } | null> | null } | null };
+
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllUsersQuery = { __typename?: 'Query', users?: { __typename?: 'UsersPage', data?: Array<{ __typename?: 'User', id?: string | null, name?: string | null, email?: string | null } | null> | null } | null };
 
 
+export const GetAllPostsDocument = `
+    query GetAllPosts {
+  posts {
+    data {
+      id
+      title
+      body
+    }
+  }
+}
+    `;
+export const useGetAllPostsQuery = <
+      TData = GetAllPostsQuery,
+      TError = unknown
+    >(
+      variables?: GetAllPostsQueryVariables,
+      options?: UseQueryOptions<GetAllPostsQuery, TError, TData>
+    ) =>
+    useQuery<GetAllPostsQuery, TError, TData>(
+      variables === undefined ? ['GetAllPosts'] : ['GetAllPosts', variables],
+      fetchData<GetAllPostsQuery, GetAllPostsQueryVariables>(GetAllPostsDocument, variables),
+      options
+    );
 export const GetAllUsersDocument = `
     query GetAllUsers {
   users {

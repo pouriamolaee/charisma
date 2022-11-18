@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import pillsReducer from "./slices/pills";
 
 export const store = configureStore({
   reducer: {
-    
+    pills: pillsReducer,
   },
 });
 

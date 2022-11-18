@@ -1,18 +1,19 @@
-import { ChangeEvent, ReactElement, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Theme, Stack, TextField, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useDispatch } from "react-redux";
-import { removeAllPills } from "@src/scripts/redux/slices/pills";
+import { addPill, removeAllPills } from "@src/scripts/redux/slices/pills";
+import ListItem from "@src/components/list-item";
 import en from "@src/lang/en";
 
 interface Props {
   items: any[] | [];
-  render: (item: any) => ReactElement;
+  formatItem: (item: any) => any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   list: {
-    backgroundColor: theme.palette.common.white,    
+    backgroundColor: theme.palette.common.white,
     p: 2,
   },
   itemsWrapper: {
@@ -20,16 +21,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function List({ items, render }: Props) {
+export default function List({ items, formatItem }: Props) {
   const classes = useStyles();
-
-  const [filteredItems, setFilteredItems] = useState(items);
+  const [filteredItems, setFilteredItems] = useState<any[] | []>([]);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (items.length === 0) return;
+    setFilteredItems(items);
+  }, [items]);
+
   const search = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilteredItems((prevItems) =>
-      prevItems.filter((item) =>
-        item.title.toLowerCase().includes(e.target.value.toLowerCase())
+    setFilteredItems(
+      items.filter((item) =>
+        formatItem(item)
+          .title.toLowerCase()
+          .includes(e.target.value.toLowerCase())
       )
     );
   };
@@ -44,7 +51,21 @@ export default function List({ items, render }: Props) {
     >
       <TextField placeholder={en.SEARCH} variant="outlined" onChange={search} />
       <Stack className={classes.itemsWrapper}>
-        {filteredItems.map((item) => render(item))}
+        {filteredItems.map((item) => {
+          const formattedItem = formatItem(item);
+          return (
+            <ListItem
+              key={formattedItem.id}
+              onClick={() =>
+                dispatch(
+                  addPill({ id: formattedItem.id, title: formattedItem.title })
+                )
+              }
+              title={formattedItem.title}
+              subTitle={formattedItem.subTitle}
+            />
+          );
+        })}
       </Stack>
       <Button variant="contained" onClick={() => dispatch(removeAllPills())}>
         {en.CLEAR_LIST}

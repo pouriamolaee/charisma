@@ -5,10 +5,8 @@ import {
   useGetAllPostsQuery,
   useGetAllUsersQuery,
 } from "@src/generated/graphql";
-import { useDispatch, useSelector } from "react-redux";
-import { addPill } from "@src/scripts/redux/slices/pills";
+import { useDispatch } from "react-redux";
 import List from "@src/components/list";
-import ListItem from "@src/components/list-item";
 import PillList from "@src/components/pill-list";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   list: {
-    backgroundColor: theme.palette.common.white, 
+    backgroundColor: theme.palette.common.white,
     p: 2,
   },
 }));
@@ -45,29 +43,19 @@ export default function Home() {
       <Stack direction="row" spacing="50px">
         <List
           items={usersData?.users?.data ?? []}
-          render={(user) => (
-            <ListItem
-              key={user.id}
-              onClick={() =>
-                dispatch(addPill({ id: user.id, title: user.name }))
-              }
-              title={user.name}
-              subTitle={user.email}
-            />
-          )}
+          formatItem={(user) => ({
+            id: user.id,
+            title: user.name,
+            subTitle: user.email,
+          })}
         />
         <List
           items={postsData?.posts?.data ?? []}
-          render={(post) => (
-            <ListItem
-              key={post.id}
-              onClick={() =>
-                dispatch(addPill({ id: post.id, title: post.title }))
-              }
-              title={post.title}
-              subTitle={post.body}
-            />
-          )}
+          formatItem={(post) => ({
+            id: post.id,
+            title: post.title,
+            subTitle: post.body,
+          })}
         />
         <PillList />
       </Stack>

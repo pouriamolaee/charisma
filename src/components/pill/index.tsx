@@ -18,6 +18,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: "1rem",
     display: "flex",
     alignItems: "center",
+    overflow: "hidden",
+  },
+  x: {
+    whiteSpace: "nowrap",
+    maxWidth: "5rem",
+    textOverflow: "ellipsis",
   },
 }));
 
@@ -26,7 +32,7 @@ export default function Pill({ onClick, children }: Props) {
 
   return (
     <ButtonBase onClick={onClick} classes={classes}>
-      {children}
+      <span className={classes.x}>{children}</span>
     </ButtonBase>
   );
 }

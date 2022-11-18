@@ -5,6 +5,8 @@ import {
   useGetAllPostsQuery,
   useGetAllUsersQuery,
 } from "@src/generated/graphql";
+import { useDispatch, useSelector } from "react-redux";
+import { addPill } from "@src/scripts/redux/slices/pills";
 import List from "@src/components/list";
 import ListItem from "@src/components/list-item";
 import PillList from "@src/components/pill-list";
@@ -14,13 +16,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   list: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white, 
     p: 2,
   },
 }));
 
 export default function Home() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { data: usersData, isLoading: isUsersDataLoading } =
     useGetAllUsersQuery();
   const { data: postsData, isLoading: isPostDataLoading } =
@@ -45,7 +48,9 @@ export default function Home() {
           render={(user) => (
             <ListItem
               key={user.id}
-              onClick={() => {}}
+              onClick={() =>
+                dispatch(addPill({ id: user.id, title: user.name }))
+              }
               title={user.name}
               subTitle={user.email}
             />
@@ -56,7 +61,9 @@ export default function Home() {
           render={(post) => (
             <ListItem
               key={post.id}
-              onClick={() => {}}
+              onClick={() =>
+                dispatch(addPill({ id: post.id, title: post.title }))
+              }
               title={post.title}
               subTitle={post.body}
             />

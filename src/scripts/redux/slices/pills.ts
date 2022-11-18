@@ -12,15 +12,16 @@ export const pillsSlice = createSlice({
   name: "pills",
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<Pill>) => {
-      state = state.concat(action.payload);
+    addPill: (state, action: PayloadAction<Pill>) => {
+      return state.concat(action.payload);
     },
-    remove: (state, action: PayloadAction<string>) => {
-      state = state.filter((i) => i.id !== action.payload);
+    removePill: (state, action: PayloadAction<string>) => {
+      return state.filter((i) => i.id !== action.payload);
     },
+    removeAllPills: () => [],
   },
 });
 
-export const { add, remove } = pillsSlice.actions;
+export const { addPill, removePill, removeAllPills } = pillsSlice.actions;
 
 export default pillsSlice.reducer;

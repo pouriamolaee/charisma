@@ -1,6 +1,8 @@
-import { useSelector } from "react-redux";
+import { RootState } from "@src/scripts/redux/store";
 import { Theme, Stack, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { removePill } from "@src/scripts/redux/slices/pills";
 import Pill from "../pill";
 import en from "@src/lang/en";
 
@@ -16,20 +18,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function PillList({}: Props) {
   const classes = useStyles();
-//   const pills = useSelector((state) => state.pills);
+  const { pills } = useSelector((state: RootState) => state);
+  const dispatch = useDispatch();
 
   return (
     <Stack className={classes.pillList} width="400px" height="725px" p={2}>
-      <Typography variant="body2">{en.TAP_TO_DELETE}</Typography>
-
+      {pills.length !== 0 && (
+        <Typography variant="body2">{en.TAP_TO_DELETE}</Typography>
+      )}
       <Stack direction="row" flexWrap="wrap">
-        <Pill onClick={() => {}}>mor_sdf</Pill>
-        <Pill onClick={() => {}}>mor_ssdfsdafsadfdf</Pill>
-        <Pill onClick={() => {}}>df</Pill>
-        <Pill onClick={() => {}}>sdfdsf</Pill>
-        <Pill onClick={() => {}}>sdfdsf dfdf</Pill>
-        <Pill onClick={() => {}}>sdfsdf FDDSF</Pill>
-        <Pill onClick={() => {}}>sdfsdf sdfsdfds</Pill>
+        {pills.map((pill) => (
+          <Pill
+            key={pill.id + pill.title}
+            onClick={() => dispatch(removePill(pill.id))}
+          >
+            {pill.title}
+          </Pill>
+        ))}
       </Stack>
     </Stack>
   );

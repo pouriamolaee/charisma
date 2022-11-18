@@ -9,7 +9,6 @@ interface Props {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
-  listItem: {},
   avatar: { width: 40, height: 40, color: theme.palette.common.white },
 }));
 
@@ -19,7 +18,6 @@ export default function ListItem({ onClick, title, subTitle }: Props) {
   return (
     <ButtonBase onClick={onClick}>
       <Stack
-        className={classes.listItem}
         width="100%"
         direction="row"
         alignItems="center"

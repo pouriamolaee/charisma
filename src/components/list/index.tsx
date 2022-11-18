@@ -1,6 +1,8 @@
-import { ReactElement } from "react";
+import { ChangeEvent, ReactElement, useState } from "react";
 import { Theme, Stack, TextField, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useDispatch } from "react-redux";
+import { removeAllPills } from "@src/scripts/redux/slices/pills";
 import en from "@src/lang/en";
 
 interface Props {
@@ -10,16 +12,27 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) => ({
   list: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,    
     p: 2,
   },
   itemsWrapper: {
-    overflow: "auto",
+    overflowY: "scroll",
   },
 }));
 
 export default function List({ items, render }: Props) {
   const classes = useStyles();
+
+  const [filteredItems, setFilteredItems] = useState(items);
+  const dispatch = useDispatch();
+
+  const search = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilteredItems((prevItems) =>
+      prevItems.filter((item) =>
+        item.title.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    );
+  };
 
   return (
     <Stack
@@ -29,11 +42,13 @@ export default function List({ items, render }: Props) {
       p={2}
       spacing={1}
     >
-      <TextField placeholder={en.SEARCH} variant="outlined" />
+      <TextField placeholder={en.SEARCH} variant="outlined" onChange={search} />
       <Stack className={classes.itemsWrapper}>
-        {items.map((item) => render(item))}
+        {filteredItems.map((item) => render(item))}
       </Stack>
-      <Button variant="contained">{en.CLEAR_LIST}</Button>
+      <Button variant="contained" onClick={() => dispatch(removeAllPills())}>
+        {en.CLEAR_LIST}
+      </Button>
     </Stack>
   );
 }

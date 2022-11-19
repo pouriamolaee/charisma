@@ -6,8 +6,6 @@ import { removePill } from "@src/scripts/redux/slices/pills";
 import Pill from "../pill";
 import en from "@src/lang/en";
 
-interface Props {}
-
 const useStyles = makeStyles((theme: Theme) => ({
   pillList: {
     backgroundColor: theme.palette.common.white,
@@ -16,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function PillList({}: Props) {
+export default function PillList() {
   const classes = useStyles();
   const { pills } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();

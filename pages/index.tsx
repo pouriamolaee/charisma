@@ -5,7 +5,6 @@ import {
   useGetAllPostsQuery,
   useGetAllUsersQuery,
 } from "@src/generated/graphql";
-import { useDispatch } from "react-redux";
 import List from "@src/components/list";
 import PillList from "@src/components/pill-list";
 
@@ -21,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Home() {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { data: usersData, isLoading: isUsersDataLoading } =
     useGetAllUsersQuery();
   const { data: postsData, isLoading: isPostDataLoading } =
@@ -48,6 +46,7 @@ export default function Home() {
             title: user.name,
             subTitle: user.email,
           })}
+          isLoading={isUsersDataLoading}
         />
         <List
           items={postsData?.posts?.data ?? []}
@@ -56,6 +55,7 @@ export default function Home() {
             title: post.title,
             subTitle: post.body,
           })}
+          isLoading={isPostDataLoading}
         />
         <PillList />
       </Stack>

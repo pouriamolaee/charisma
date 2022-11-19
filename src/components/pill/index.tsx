@@ -8,22 +8,24 @@ interface Props {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    margin: 5,
-    padding: "0 12px",
-    width: "fit-content",
-    height: "2rem",
-    borderRadius: "1rem",
-    display: "flex",
-    alignItems: "center",
-    overflow: "hidden",
+  pill: {
+    "&": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
+      margin: 5,
+      padding: "0 12px",
+      width: "fit-content",
+      height: "2rem",
+      borderRadius: "1rem",
+      display: "flex",
+      alignItems: "center",
+    },
   },
-  x: {
+  pillLabel: {
+    maxWidth: "20rem",
     whiteSpace: "nowrap",
-    maxWidth: "5rem",
     textOverflow: "ellipsis",
+    overflow: "hidden",
   },
 }));
 
@@ -31,8 +33,8 @@ export default function Pill({ onClick, children }: Props) {
   const classes = useStyles();
 
   return (
-    <ButtonBase onClick={onClick} classes={classes}>
-      <span className={classes.x}>{children}</span>
+    <ButtonBase onClick={onClick} className={classes.pill}>
+      <span className={classes.pillLabel}>{children}</span>
     </ButtonBase>
   );
 }

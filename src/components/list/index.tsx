@@ -1,5 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Theme, Stack, TextField, Button } from "@mui/material";
+import {
+  Theme,
+  Stack,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useDispatch } from "react-redux";
 import { addPill, removeAllPills } from "@src/scripts/redux/slices/pills";
@@ -9,6 +15,7 @@ import en from "@src/lang/en";
 interface Props {
   items: any[] | [];
   formatItem: (item: any) => any;
+  isLoading: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function List({ items, formatItem }: Props) {
+export default function List({ items, formatItem, isLoading }: Props) {
   const classes = useStyles();
   const [filteredItems, setFilteredItems] = useState<any[] | []>([]);
   const dispatch = useDispatch();
@@ -50,22 +57,36 @@ export default function List({ items, formatItem }: Props) {
       spacing={1}
     >
       <TextField placeholder={en.SEARCH} variant="outlined" onChange={search} />
-      <Stack className={classes.itemsWrapper}>
-        {filteredItems.map((item) => {
-          const formattedItem = formatItem(item);
-          return (
-            <ListItem
-              key={formattedItem.id}
-              onClick={() =>
-                dispatch(
-                  addPill({ id: formattedItem.id, title: formattedItem.title })
-                )
-              }
-              title={formattedItem.title}
-              subTitle={formattedItem.subTitle}
-            />
-          );
-        })}
+      <Stack className={classes.itemsWrapper} flexGrow={1}>
+        {isLoading ? (
+          <Stack
+            width="100%"
+            height="100%"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <CircularProgress />
+          </Stack>
+        ) : (
+          filteredItems.map((item) => {
+            const formattedItem = formatItem(item);
+            return (
+              <ListItem
+                key={formattedItem.id}
+                onClick={() =>
+                  dispatch(
+                    addPill({
+                      id: formattedItem.id,
+                      title: formattedItem.title,
+                    })
+                  )
+                }
+                title={formattedItem.title}
+                subTitle={formattedItem.subTitle}
+              />
+            );
+          })
+        )}
       </Stack>
       <Button variant="contained" onClick={() => dispatch(removeAllPills())}>
         {en.CLEAR_LIST}

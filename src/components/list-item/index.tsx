@@ -18,11 +18,11 @@ export default function ListItem({ onClick, title, subTitle }: Props) {
   return (
     <ButtonBase onClick={onClick}>
       <Stack
-        width="100%"
         direction="row"
         alignItems="center"
         spacing={2}
         p="0.5rem 1rem"
+        width="100%"
       >
         <Avatar src="" className={classes.avatar}>
           <InsertPhotoRoundedIcon />

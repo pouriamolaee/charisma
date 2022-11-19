@@ -6,9 +6,6 @@ const theme: ThemeOptions = createTheme({
     primary: {
       main: "#1976d2",
     },
-    secondary: {
-      main: "#A274B2",
-    },
     background: {
       default: "#808080",
     },
@@ -24,11 +21,6 @@ const theme: ThemeOptions = createTheme({
     caption: {
       color: grey[600],
       fontSize: "0.875rem",
-    },
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {},
     },
   },
 });

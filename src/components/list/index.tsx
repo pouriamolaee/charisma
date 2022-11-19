@@ -12,9 +12,15 @@ import { addPill, removeAllPills } from "@src/scripts/redux/slices/pills";
 import ListItem from "@src/components/list-item";
 import en from "@src/lang/en";
 
-interface Props {
-  items: any[] | [];
-  formatItem: (item: any) => any;
+export interface Item {
+  id: string;
+  title: string;
+  subTitle: string;
+}
+
+interface Props<T> {
+  items: T[] | [];
+  formatItem: (item: T) => Item;
   isLoading: boolean;
 }
 
@@ -28,9 +34,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function List({ items, formatItem, isLoading }: Props) {
+export default function List<T>({ items, formatItem, isLoading }: Props<T>) {
   const classes = useStyles();
-  const [filteredItems, setFilteredItems] = useState<any[] | []>([]);
+  const [filteredItems, setFilteredItems] = useState<T[] | []>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,6 +76,7 @@ export default function List({ items, formatItem, isLoading }: Props) {
         ) : (
           filteredItems.map((item) => {
             const formattedItem = formatItem(item);
+
             return (
               <ListItem
                 key={formattedItem.id}

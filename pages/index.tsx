@@ -5,7 +5,7 @@ import {
   useGetAllPostsQuery,
   useGetAllUsersQuery,
 } from "@src/generated/graphql";
-import List from "@src/components/list";
+import List, { Item } from "@src/components/list";
 import PillList from "@src/components/pill-list";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -41,20 +41,24 @@ export default function Home() {
       <Stack direction="row" spacing="50px">
         <List
           items={usersData?.users?.data ?? []}
-          formatItem={(user) => ({
-            id: user.id,
-            title: user.name,
-            subTitle: user.email,
-          })}
+          formatItem={(user) =>
+            ({
+              id: user!.id,
+              title: user!.name,
+              subTitle: user!.email,
+            } as Item)
+          }
           isLoading={isUsersDataLoading}
         />
         <List
           items={postsData?.posts?.data ?? []}
-          formatItem={(post) => ({
-            id: post.id,
-            title: post.title,
-            subTitle: post.body,
-          })}
+          formatItem={(post) =>
+            ({
+              id: post!.id,
+              title: post!.title,
+              subTitle: post!.body,
+            } as Item)
+          }
           isLoading={isPostDataLoading}
         />
         <PillList />

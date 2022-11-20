@@ -80,14 +80,7 @@ export default function List<T>({ items, formatItem, isLoading }: Props<T>) {
             return (
               <ListItem
                 key={formattedItem.id}
-                onClick={() =>
-                  dispatch(
-                    addPill({
-                      id: formattedItem.id,
-                      title: formattedItem.title,
-                    })
-                  )
-                }
+                onClick={() => dispatch(addPill(formattedItem.title))}
                 title={formattedItem.title}
                 subTitle={formattedItem.subTitle}
               />

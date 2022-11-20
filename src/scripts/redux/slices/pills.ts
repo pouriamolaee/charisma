@@ -8,12 +8,16 @@ export interface Pill {
 
 const initialState: Pill[] = [];
 
+let id = 1;
+
 export const pillsSlice = createSlice({
   name: "pills",
   initialState,
   reducers: {
-    addPill: (state, action: PayloadAction<Pill>) => {
-      return state.concat(action.payload);
+    addPill: (state, action: PayloadAction<string>) => {
+      const pill = { id, title: action.payload };
+      id++;
+      return state.concat(pill);
     },
     removePill: (state, action: PayloadAction<string>) => {
       return state.filter((i) => i.id !== action.payload);

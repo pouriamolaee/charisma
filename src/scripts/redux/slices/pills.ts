@@ -2,7 +2,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface Pill {
-  id: string;
+  id: number;
   title: string;
 }
 
@@ -19,7 +19,7 @@ export const pillsSlice = createSlice({
       id++;
       return state.concat(pill);
     },
-    removePill: (state, action: PayloadAction<string>) => {
+    removePill: (state, action: PayloadAction<number>) => {
       return state.filter((i) => i.id !== action.payload);
     },
     removeAllPills: () => [],
